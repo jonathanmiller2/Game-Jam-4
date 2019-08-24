@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DetectTileSpawn : MonoBehaviour
+public class TileController : MonoBehaviour
 {
 	[SerializeField]
 	private float timeBetweenSpawnChecks = 1f;
@@ -20,59 +20,34 @@ public class DetectTileSpawn : MonoBehaviour
     private GameObject tileManager;
     private TileSpawn tileSpawn;
     private List<GameObject> snapPoints;
-    private GameObject pivotPoint;
+    private GameObject centerPoint;
 
-    
+    private GameObject childTile;
+    private GameObject parentTile;
 
-    void Start()
+
+    void Awake()
     {
     	player = GameObject.Find("Player");
     	tileManager = GameObject.Find("TileManager");
         tileSpawn = tileManager.GetComponent<TileSpawn>();
 		snapPoints = GetChildObjectsWithTag("SnapPoint");
-        pivotPoint = GetChildObjectWithTag(transform, "PivotPoint");
-    	
+        centerPoint = GetChildObjectWithTag(transform, "CenterPoint");
     }
 
     // Update is called once per frame
-    void Update()
+    public List<GameObject> SpawnOffOfThisTile()
     {
-        //Do spawn check
-        if(spawnCheckTimer > timeBetweenSpawnChecks)
+        //Create copy of snapPoints, so we can edit snapPoints inside of the loop that iterates over it
+        List<GameObject> newPlatforms = new List<GameObject>();
+
+        foreach(GameObject snap in snapPoints)
         {
-        	spawnCheckTimer = 0f;
-
-            //Create copy of snapPoints, so we can edit snapPoints inside of the loop that iterates over it
-            List<GameObject> unusedSnapPoints = new List<GameObject>();
-
-        	foreach(GameObject snap in snapPoints)
-        	{
-                
-        		if(Vector3.Distance(snap.transform.position, player.transform.position) < SpawnDistance)
-        		{
-        			tileSpawn.Spawn(snap.transform.position, pivotPoint.transform.position);
-        		}
-                else
-                {
-                    //Store all of the unused snap points
-                    unusedSnapPoints.Add(snap);
-                }
-        	}
-
-            //Keep track of only the unused snap points
-            snapPoints = unusedSnapPoints;
-
-            //Do delete check
-            if(Vector3.Distance(pivotPoint.transform.position, player.transform.position) > DeleteDistance)
-            {
-                Destroy(gameObject);
-            }
-
+            GameObject newPlatform = tileSpawn.Spawn(snap.transform.position, centerPoint.transform.position);
+        	newPlatforms.Add(newPlatform);
         }
-        else
-        {
-        	spawnCheckTimer += Time.deltaTime;
-        }
+
+        return newPlatforms;
     }
 
     public List<GameObject> GetChildObjectsWithTag(string Tag)

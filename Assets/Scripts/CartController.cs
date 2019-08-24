@@ -5,62 +5,119 @@ using UnityEngine;
 public class CartController : MonoBehaviour
 {
 
-	float moveSpeed = 5f;
+	private const float nextPointThreshold = 0.01f;
+
+	[SerializeField]
+	private float moveSpeed = 0.65f;
 
 	List<GameObject> tiles = new List<GameObject>(4);
 
-	Vector3 nextTileFirstPoint = Vector3.negativeInfinity;
+	Vector3 nextTileFirstPoint;
 
 	List<Vector3> points = new List<Vector3>();
 
+	private GameObject tileManager;
+
     void Start()
     {
-        
+        tileManager = GameObject.Find("TileManager");
+
+        GameObject startingPlatform = GameObject.Find("InitialPlatform");
+        TileController startingTileController = startingPlatform.GetComponent<TileController>();
+
+        tiles.Add(startingPlatform);
+
+        GameObject PointParent = GetChildObjectWithTag(startingPlatform.transform, "Points");
+
+		//Add all of the points of the new tile to the movement queue
+		foreach(Transform point in PointParent.transform)
+		{
+			points.Add(point.position);
+		}
+
+		nextTileFirstPoint = PointParent.transform.GetChild(0).position;
     }
 
-    void FixedUpdate()
+    void Update()
     {
 		Move();
 		CheckPoint();
     }
 
-	void Move()
+	void Move() 
 	{
 		transform.LookAt(points[0]);
-		//move to points[0]
+
+		transform.position += transform.forward * moveSpeed * Time.deltaTime;
 	}
 
 	void CheckPoint()
 	{
 		Vector3 currentPoint = transform.position;
 
-		if (currentPoint == points[0])
+		if (Vector3.Distance(transform.position, points[0]) < nextPointThreshold)
 		{
 			points.RemoveAt(0);
 
-			if (currentPoint == nextTileFirstPoint)
+			//This only needs to be checked if we're at a new point, not in transit
+			if (Vector3.Distance(transform.position, nextTileFirstPoint) < nextPointThreshold)
 			{
 				SpawnTile();
 			}
-
 		}
-
 	}
 
 	void SpawnTile()
 	{
-		//Do tile spawing
+		//Identify new parent tile
+		TileController currentTileController = tiles[0].GetComponent<TileController>();
 
-		GameObject newTile;
+		
 
-		tiles.RemoveAt(3);
+		//Spawn tile
+		GameObject newTile = currentTileController.SpawnOffOfThisTile()[0];
+		GameObject PointParent = GetChildObjectWithTag(newTile.transform, "Points");
 
+		//Add all of the points of the new tile to the movement queue
+		foreach(Transform point in PointParent.transform)
+		{
+			points.Add(point.position);
+		}
+
+		//Destroy old tiles and shift arraylist
+		if(tiles.Count >= 4)
+		{
+			Destroy(tiles[3]);
+			tiles.RemoveAt(3);	
+		}
 		tiles.Insert(0, newTile);
 
 		//gets the first child, the list of points, then gets the first points (child) and gets its position;
-		nextTileFirstPoint = newTile.transform.GetChild(0).GetChild(0).transform.position;
+		Debug.Log(PointParent.transform.childCount);
+		nextTileFirstPoint = PointParent.transform.GetChild(0).position;
 
-		//get the tiles points add them to the points list
+
+
+
+
+		Debug.Log(points.Count);
 	}
 
+	public GameObject GetChildObjectWithTag(Transform Parent, string Tag)
+    {
+        for (int i = 0; i < Parent.childCount; i++)
+        {
+            Transform Child = Parent.GetChild(i);
+            if (Child.tag == Tag)
+            {
+                return Child.gameObject;
+            }
+            if (Child.childCount > 0)
+            {
+                GetChildObjectWithTag(Child, Tag);
+            }
+        }
+
+        return null;
+    }
 }
