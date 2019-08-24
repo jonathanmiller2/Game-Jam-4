@@ -355,6 +355,7 @@ GameObject:
   - component: {fileID: 690272894}
   - component: {fileID: 690272893}
   - component: {fileID: 690272892}
+  - component: {fileID: 690272895}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -427,6 +428,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &690272895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690272891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 659f806e6de30d84a8507768836f6c9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameboyMaterial: {fileID: 2100000, guid: f70960d2485c93842b9233e409b39d76, type: 2}
+  identityMaterial: {fileID: 2100000, guid: 2084aaeda4948294eb81aa1843269ae4, type: 2}
 --- !u!1 &991278871
 GameObject:
   m_ObjectHideFlags: 0
