@@ -335,9 +335,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tiles:
-  - {fileID: 3728705301385087622, guid: db86abd858970f741b30d4231e855391, type: 3}
-  - {fileID: 4916858433370538650, guid: b8e88e062d1c4244692d4f9c8c195755, type: 3}
-  - {fileID: 1687392917290278267, guid: 7ef3b656ff3d68e4382f10f86c7f9ee2, type: 3}
+  - {fileID: 7379634210716709417, guid: 850487136acbfff41aff6657ce8d6e64, type: 3}
 --- !u!1 &953399463
 GameObject:
   m_ObjectHideFlags: 0
