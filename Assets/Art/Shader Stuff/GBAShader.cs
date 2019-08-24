@@ -19,7 +19,7 @@ public class GBAShader : MonoBehaviour
 
     private void OnDisable()
     {
-        Destroy(_downscaledRenderTexture);
+        DestroyImmediate(_downscaledRenderTexture);
     }
 
     private void OnRenderImage(RenderTexture src, RenderTexture dst)
