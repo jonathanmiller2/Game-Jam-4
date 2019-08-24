@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	public const float viewRange = 65.0f;
 
+	public float playerFuel = 0f;
 
 	private float rotY = 0;
 	private float rotX = 0;
@@ -36,8 +37,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        //Calculate movement velocity as a 3D vector
-        float xMov = Input.GetAxisRaw("Horizontal");
+		
+
+		//Calculate movement velocity as a 3D vector
+		float xMov = Input.GetAxisRaw("Horizontal");
         float zMov = Input.GetAxisRaw("Vertical");
 
         Vector3 moveHorizontal = transform.right * xMov;
@@ -61,7 +64,52 @@ public class PlayerController : MonoBehaviour
   		rotY = Mathf.Clamp(rotY, -viewRange, viewRange);
    		cam.transform.rotation = Quaternion.Euler(-rotY, rotX, 0f);
 
-    }
 
+		LookAndInteract();
+	}
+
+	void LookAndInteract()
+	{
+		if (Input.GetButtonDown("Fire1"))
+		{
+			RaycastHit hit;
+
+			Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.green);
+
+			if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 1000))
+			{
+				GameObject hitObject = hit.collider.GetComponentInParent<Transform>().gameObject;
+
+				if (hitObject.tag == "FuelCell")
+				{
+					PickupFuel(hitObject);
+				}
+				
+			}
+		}
+		else
+		{
+			RaycastHit hit;
+
+			Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.green);
+
+			if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 1000))
+			{
+				GameObject hitObject = hit.collider.GetComponentInParent<Transform>().gameObject;
+
+				//Visual indicator
+				//audio indicator
+			}
+		}
+	}
+	
+	void PickupFuel(GameObject fuelCell)
+	{
+		FuelCellController cell = fuelCell.GetComponent<FuelCellController>();
+
+		playerFuel += cell.fuelAmount;
+
+		cell.Consume();
+	}
 
 }
