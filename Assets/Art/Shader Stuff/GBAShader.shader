@@ -54,9 +54,6 @@
 
       float darkest = saturate(lumaTimesThree);
       float4 color = lerp(_Darkest, _Dark, darkest);
-
-	  //float darkest = saturate(lumaTimesThree + 1.0);
-      //color = lerp(color, _Dark, Darkest);
 	  
       float dark = saturate(lumaTimesThree - 1.0);
       color = lerp(color, _Dark, dark);
@@ -64,7 +61,7 @@
 	  float light = saturate(lumaTimesThree - 2.0);
       color = lerp(color, _Ligt, light);
 
-      float lightest = saturate(lumaTimesThree - 3.0);
+      float lightest = saturate(lumaTimesThree - 10.0);
       color = lerp(color, _Ligtest, lightest);
 
       return color;
