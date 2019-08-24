@@ -144,9 +144,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d666988d1d7fd4eb7ad3b3252aaf4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenSpawnChecks: 0.75
+  timeBetweenSpawnChecks: 1
   spawnCheckTimer: 0
-  SpawnDistance: 7.5
+  SpawnDistance: 5
+  DeleteDistance: 10
 --- !u!1 &4526168489623216738
 GameObject:
   m_ObjectHideFlags: 0

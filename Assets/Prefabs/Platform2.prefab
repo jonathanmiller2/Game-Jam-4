@@ -363,6 +363,7 @@ MonoBehaviour:
   timeBetweenSpawnChecks: 1
   spawnCheckTimer: 0
   SpawnDistance: 5
+  DeleteDistance: 10
 --- !u!1 &5022801656579209938
 GameObject:
   m_ObjectHideFlags: 0

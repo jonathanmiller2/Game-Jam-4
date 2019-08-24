@@ -10,14 +10,19 @@ public class DetectTileSpawn : MonoBehaviour
     [SerializeField]
     private float spawnCheckTimer = 0f;
 
+    [SerializeField]
+    private float SpawnDistance = 1f;
+
+    [SerializeField]
+    private float DeleteDistance = 10000f;    
+
     private GameObject player;
     private GameObject tileManager;
     private TileSpawn tileSpawn;
     private List<GameObject> snapPoints;
     private GameObject pivotPoint;
 
-    [SerializeField]
-    private float SpawnDistance = 1f;
+    
 
     void Start()
     {
@@ -32,6 +37,7 @@ public class DetectTileSpawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Do spawn check
         if(spawnCheckTimer > timeBetweenSpawnChecks)
         {
         	spawnCheckTimer = 0f;
@@ -55,6 +61,13 @@ public class DetectTileSpawn : MonoBehaviour
 
             //Keep track of only the unused snap points
             snapPoints = unusedSnapPoints;
+
+            //Do delete check
+            if(Vector3.Distance(pivotPoint.transform.position, player.transform.position) > DeleteDistance)
+            {
+                Destroy(gameObject);
+            }
+
         }
         else
         {

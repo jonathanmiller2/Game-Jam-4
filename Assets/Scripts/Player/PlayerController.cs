@@ -16,9 +16,20 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private float lookSensitivity = 1f;
 
+	[SerializeField]
+	public const float viewRange = 65.0f;
+
+
+	private float rotY = 0;
+	private float rotX = 0;
+
     // Start is called before the first frame update
     void Start()
     {
+
+    	Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         rb = GetComponent<Rigidbody>();
     }
 
@@ -40,15 +51,15 @@ public class PlayerController : MonoBehaviour
         }
 
         //Calculate rotation as a 3D vector and apply
-        float yRot = Input.GetAxisRaw("Mouse X");
-        Vector3 rotation = new Vector3(0f, yRot, 0f) * lookSensitivity;
-        rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation));
+        rotX += Input.GetAxis("Mouse X") * lookSensitivity;
 
-        //Calculate camera tilt as a 3D vector and apply
-        float xRot = Input.GetAxisRaw("Mouse Y");
-        Vector3 cameraTilt = new Vector3(-xRot, 0f, 0f) * lookSensitivity;
-        cam.transform.Rotate(cameraTilt);
-        
+        //This is necessary
+        transform.rotation = Quaternion.Euler(0f, rotX, 0f);
+
+
+		rotY += Input.GetAxis("Mouse Y") * lookSensitivity;
+  		rotY = Mathf.Clamp(rotY, -viewRange, viewRange);
+   		cam.transform.rotation = Quaternion.Euler(-rotY, rotX, 0f);
 
     }
 
