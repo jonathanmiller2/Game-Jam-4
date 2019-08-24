@@ -6,10 +6,6 @@ public class FuelCellController : MonoBehaviour
 {
 	public float fuelAmount = 4f;
 
-    void Start()
-    {
-        
-    }
 
 	public void Consume()
 	{

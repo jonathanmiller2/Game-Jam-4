@@ -9,6 +9,9 @@ TagManager:
   - ExitButton
   - Slider
   - AudioManager
+  - PivotPoint
+  - OriginPoint
+  - FuelCell
   layers:
   - Default
   - TransparentFX
