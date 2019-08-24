@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
 	private Rigidbody rb;
@@ -12,7 +11,7 @@ public class PlayerController : MonoBehaviour
 	private Camera cam;
 
 	[SerializeField]
-	private float speed = 5f;
+	private float speed = 1f;
 
 	[SerializeField]
 	private float lookSensitivity = 1f;
