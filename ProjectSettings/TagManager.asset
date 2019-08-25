@@ -12,6 +12,10 @@ TagManager:
   - PivotPoint
   - OriginPoint
   - FuelCell
+  - CenterPoint
+  - Points
+  - FuelCellPoints
+  - Tile
   layers:
   - Default
   - TransparentFX

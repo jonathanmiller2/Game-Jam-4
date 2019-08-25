@@ -18,6 +18,10 @@ public class PlayerMenuController : MonoBehaviour
 
 	private GameObject grabbed = null;
 
+	float doorActionDelay = 1.3f;
+	float actionTime = 0f;
+	bool doorActionPlay = false;
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -30,6 +34,22 @@ public class PlayerMenuController : MonoBehaviour
 	// Update is called once per frame
 	void FixedUpdate()
 	{
+
+		if (actionTime > 0f)
+		{
+			if (Time.time > actionTime + doorActionDelay)
+			{
+				if (doorActionPlay)
+				{
+					SceneManager.LoadScene(1, LoadSceneMode.Single);
+				}
+				else
+				{
+					Application.Quit();
+				}
+			}
+		}
+
 		UndoAllColor();
 
 		float yRot = Input.GetAxisRaw("Mouse X");
@@ -100,11 +120,15 @@ public class PlayerMenuController : MonoBehaviour
 
 				if (hitObject.tag == "PlayButton")
 				{
-					SceneManager.LoadScene(1, LoadSceneMode.Single);
+					hitObject.GetComponent<AudioSource>().Play();
+					doorActionPlay = true;
+					actionTime = Time.time;
+					
 				}
 				else if (hitObject.tag == "ExitButton")
 				{
-					Application.Quit();
+					hitObject.GetComponent<AudioSource>().Play();
+					actionTime = Time.time;
 				}
 				else if (hitObject.tag == "Slider")
 				{
