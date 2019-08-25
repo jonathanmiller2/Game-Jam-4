@@ -13,11 +13,10 @@ public class PlayerController : MonoBehaviour
 	private const float speed = 1f;
 	private const float lookSensitivity = 1f;
 	private const float viewRange = 65.0f;
-	private const float deathTime = 10.0f;
 
 	[SerializeField]
-	private const float deathRadius = 10f;
-	private float deathTimer = 0;
+	private const float deathRadius = 5f;
+	private const float cartRegenRadius = 1.5f;
 
 	public float playerFuel;
 
@@ -28,6 +27,7 @@ public class PlayerController : MonoBehaviour
 	public AudioSource extinguisher;
 	public AudioSource flame;
 	public AudioSource ignition;
+	public AudioSource spook;
 
 	public ParticleSystem sparks;
 
@@ -43,10 +43,17 @@ public class PlayerController : MonoBehaviour
 
 	private GameObject cart;
 
+	public float deathTimer;
+	private bool dead = false;
 	public bool mortal = false;
+	[SerializeField]
+	private float health = 1f;
+	public float healthDepletionRate;
+	public float cartRegenRate;
+	public float lanternRegenRate;
 
-    // Start is called before the first frame update
-    void Start()
+	// Start is called before the first frame update
+	void Start()
     {
 
     	Cursor.visible = false;
@@ -82,7 +89,7 @@ public class PlayerController : MonoBehaviour
 				sparks.Clear();
 				sparks.Play();
 
-				if (remainingLightAttempts == 0 && playerFuel > 0f)
+				if (remainingLightAttempts == 0 && playerFuel > 0f && !dead)
 				{
 					ignition.Play();
 					flame.Play();
@@ -225,25 +232,70 @@ public class PlayerController : MonoBehaviour
 
 		//================================
 		//Death
-		if (mortal)
+		if (mortal && !dead)
 		{
 			if (!lanternOn && Vector3.Distance(cart.transform.position, transform.position) > deathRadius)
 			{
-				//Death timer
-				if (deathTimer > deathTime)
+				if (health <= 0f)
 				{
 					//Die
-
+					dead = true;
+					spook.volume = 1f;
+					spook.Play();
 					//Play death sound
 
-					//Go back to main menu scene
-					SceneManager.LoadScene("MainMenuScene", LoadSceneMode.Single);
+					
 				}
 				else
 				{
-					//Progress dying
-					deathTimer += Time.deltaTime;
+					float oldHealth = health;
+					health -= healthDepletionRate;
+
+					if (oldHealth > 0.8f && health <= 0.8f)
+					{
+						spook.volume = 0.2f;
+						spook.Play();
+					}
+					else if (oldHealth > 0.6f && health <= 0.6f)
+					{
+						spook.volume = 0.4f;
+						spook.Play();
+					}
+					else if (oldHealth > 0.4f && health <= 0.4f)
+					{
+						spook.volume = 0.6f;
+						spook.Play();
+					}
+					else if (oldHealth > 0.2f && health <= 0.2f)
+					{
+						spook.volume = 0.8f;
+						spook.Play();
+					}
 				}
+			}
+			else if (Vector3.Distance(cart.transform.position, transform.position) < cartRegenRadius)
+			{
+				health += cartRegenRate;
+				
+			}
+			else if (lanternOn)
+			{
+				health += lanternRegenRate;
+			}
+
+			if (health > 1f)
+			{
+				health = 1f;
+			}
+		}
+		else if (mortal && dead)
+		{
+			deathTimer -= Time.deltaTime;
+
+			if (deathTimer <= 0f)
+			{
+				//Go back to main menu scene
+				SceneManager.LoadScene("MainMenuScene", LoadSceneMode.Single);
 			}
 		}
 	}
