@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FuelCellController : MonoBehaviour
 {
-	public float fuelAmount = 4f;
+	public float fuelAmount = 0.3f;
 	private float timer = 0.8f;
 	private float startTime = -1f;
 

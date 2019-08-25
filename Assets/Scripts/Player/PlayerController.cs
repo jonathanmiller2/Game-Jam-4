@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
 	private const float deathRadius = 10f;
 	private float deathTimer = 0;
 
-	public float playerFuel = 0f;
+	public float playerFuel;
 
 	private float rotY = 0;
 	private float rotX = 0;
@@ -33,7 +33,10 @@ public class PlayerController : MonoBehaviour
 
 	private bool lanternOn = false;
 	private int ambiantOnly = 0;
-	private int remainingLightAttempts = 2;
+	public int remainingLightAttempts;
+
+	public float burnRate;
+	public Transform needle;
 
 	public Light mainLight;
 	public Light ambiantLight;
@@ -54,8 +57,55 @@ public class PlayerController : MonoBehaviour
         cart = GameObject.Find("Cart");
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+	private void Update()
+	{
+		//Lantern
+		if (Input.GetButtonDown("Fire2"))
+		{
+
+			if (remainingLightAttempts < 0)
+			{
+				remainingLightAttempts = 0;
+			}
+
+			if (lanternOn)
+			{
+				lanternOn = false;
+				flame.Stop();
+				extinguisher.Play();
+			}
+			else
+			{
+				ignitor.Play();
+
+				//Burst particles
+				sparks.Clear();
+				sparks.Play();
+
+				if (remainingLightAttempts == 0 && playerFuel > 0f)
+				{
+					ignition.Play();
+					flame.Play();
+
+					lanternOn = true;
+					remainingLightAttempts = Random.Range(0, 5);
+				}
+				else
+				{
+					remainingLightAttempts -= 1;
+					if (remainingLightAttempts < 0)
+					{
+						remainingLightAttempts = 0;
+					}
+					ambiantOnly = Random.Range(4, 9);
+				}
+
+			}
+		}
+	}
+
+	// Update is called once per frame
+	void FixedUpdate()
     {
 		//Walking Audio
 		if (Input.GetKeyDown(KeyCode.W))
@@ -63,6 +113,10 @@ public class PlayerController : MonoBehaviour
 			GetComponent<AudioSource>().Play();
 		}
 		else if (Input.GetKeyUp(KeyCode.W))
+		{
+			GetComponent<AudioSource>().Stop();
+		}
+		else if (!Input.GetKey(KeyCode.W))
 		{
 			GetComponent<AudioSource>().Stop();
 		}
@@ -94,42 +148,24 @@ public class PlayerController : MonoBehaviour
 
 		//================================
 
-		//Lantern
-		if (Input.GetButtonDown("Fire2"))
+		//lantern
+		//Fuel
+		if (lanternOn)
 		{
-			if (lanternOn)
+			playerFuel -= burnRate;
+
+			if (playerFuel <= 0f)
 			{
 				lanternOn = false;
+				playerFuel = 0f;
 				flame.Stop();
 				extinguisher.Play();
 			}
-			else
-			{
-				if (!lanternOn)
-				{
-					//Burst particles
-					sparks.Clear();
-					sparks.Play();
-
-					if (remainingLightAttempts == 0)
-					{
-						ignitor.Play();
-						ignition.Play();
-						flame.Play();
-
-						lanternOn = true;
-						remainingLightAttempts = Random.Range(1, 5);
-					}
-					else
-					{
-						remainingLightAttempts -= 1;
-						ignitor.Play();
-						ambiantOnly = Random.Range(4, 9);
-					}
-				}
-			}
-
 		}
+		
+		//Needle
+		float zRot = -(playerFuel * 320f);
+		needle.rotation = Quaternion.Euler(new Vector3(needle.rotation.eulerAngles.x, needle.rotation.eulerAngles.y, zRot));
 
 		//Enabling the lights when lanternOn is true
 		mainLight.enabled = lanternOn;
@@ -163,6 +199,10 @@ public class PlayerController : MonoBehaviour
 					FuelCellController cell = hitObject.GetComponent<FuelCellController>();
 
 					playerFuel += cell.fuelAmount;
+					if (playerFuel > 1f)
+					{
+						playerFuel = 1f;
+					}
 			
 					cell.Consume();
 				}

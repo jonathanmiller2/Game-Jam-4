@@ -430,14 +430,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1472499980}
-  playerFuel: 0
+  playerFuel: 0.75
   ignitor: {fileID: 1989584738}
   extinguisher: {fileID: 2055166869}
   flame: {fileID: 1914524386}
   ignition: {fileID: 793015465}
   sparks: {fileID: 560021631}
+  remainingLightAttempts: 1
+  burnRate: 0.0003
+  needle: {fileID: 989112269}
   mainLight: {fileID: 101137159}
   ambiantLight: {fileID: 717518165}
+  mortal: 0
 --- !u!1 &717518163
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,6 +877,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &989112269 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4872692580252700247, guid: 58715b9687fcff84681173ca29de31d7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1516765499}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1323404253
 GameObject:
   m_ObjectHideFlags: 0
@@ -1367,6 +1377,46 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 5a1f4e4eb8d49da49b9932182bd7b22b, type: 2}
+    - target: {fileID: 4872692580252700247, guid: 58715b9687fcff84681173ca29de31d7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872692580252700247, guid: 58715b9687fcff84681173ca29de31d7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872692580252700247, guid: 58715b9687fcff84681173ca29de31d7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872692580252700247, guid: 58715b9687fcff84681173ca29de31d7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872692580252700247, guid: 58715b9687fcff84681173ca29de31d7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872692580252700247, guid: 58715b9687fcff84681173ca29de31d7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4872692580252700247, guid: 58715b9687fcff84681173ca29de31d7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3091984721925297345, guid: 58715b9687fcff84681173ca29de31d7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 8743946337373728693, guid: 58715b9687fcff84681173ca29de31d7,
         type: 3}
       propertyPath: m_IsActive
