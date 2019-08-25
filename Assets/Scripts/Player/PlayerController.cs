@@ -29,14 +29,18 @@ public class PlayerController : MonoBehaviour
 	public AudioSource flame;
 	public AudioSource ignition;
 
+	public ParticleSystem sparks;
+
 	private bool lanternOn = false;
 	private int ambiantOnly = 0;
-	private int remainingLightAttempts = 100;
+	private int remainingLightAttempts = 2;
 
 	public Light mainLight;
 	public Light ambiantLight;
 
 	private GameObject cart;
+
+	public bool mortal = false;
 
     // Start is called before the first frame update
     void Start()
@@ -95,25 +99,33 @@ public class PlayerController : MonoBehaviour
 		{
 			if (lanternOn)
 			{
+				lanternOn = false;
 				flame.Stop();
 				extinguisher.Play();
-				lanternOn = false;
-				remainingLightAttempts = Random.Range(0, 5);
 			}
 			else
 			{
-				if (remainingLightAttempts == 0)
+				if (!lanternOn)
 				{
-					lanternOn = true;
-					ignitor.Play();
-					ignition.Play();
-					flame.Play();
-				}
-				else
-				{
-					remainingLightAttempts -= 1;
-					ignitor.Play();
-					ambiantOnly = Random.Range(4, 9);
+					//Burst particles
+					sparks.Clear();
+					sparks.Play();
+
+					if (remainingLightAttempts == 0)
+					{
+						ignitor.Play();
+						ignition.Play();
+						flame.Play();
+
+						lanternOn = true;
+						remainingLightAttempts = Random.Range(1, 5);
+					}
+					else
+					{
+						remainingLightAttempts -= 1;
+						ignitor.Play();
+						ambiantOnly = Random.Range(4, 9);
+					}
 				}
 			}
 
@@ -172,23 +184,26 @@ public class PlayerController : MonoBehaviour
 		}
 
 		//================================
-
-		if(!lanternOn && Vector3.Distance(cart.transform.position, transform.position) > deathRadius)
+		//Death
+		if (mortal)
 		{
-			//Death timer
-			if(deathTimer > deathTime)
+			if (!lanternOn && Vector3.Distance(cart.transform.position, transform.position) > deathRadius)
 			{
-				//Die
+				//Death timer
+				if (deathTimer > deathTime)
+				{
+					//Die
 
-				//Play death sound
+					//Play death sound
 
-				//Go back to main menu scene
-				SceneManager.LoadScene("MainMenuScene", LoadSceneMode.Single);
-			}
-			else
-			{
-				//Progress dying
-				deathTimer += Time.deltaTime;
+					//Go back to main menu scene
+					SceneManager.LoadScene("MainMenuScene", LoadSceneMode.Single);
+				}
+				else
+				{
+					//Progress dying
+					deathTimer += Time.deltaTime;
+				}
 			}
 		}
 	}

@@ -250,6 +250,12 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 87, y: 100, z: 50}
   m_Center: {x: -41.3, y: 40.43, z: 0}
+--- !u!198 &560021631 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4992276889083047674, guid: 58715b9687fcff84681173ca29de31d7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1516765499}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &610235063
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,6 +435,7 @@ MonoBehaviour:
   extinguisher: {fileID: 2055166869}
   flame: {fileID: 1914524386}
   ignition: {fileID: 793015465}
+  sparks: {fileID: 560021631}
   mainLight: {fileID: 101137159}
   ambiantLight: {fileID: 717518165}
 --- !u!1 &717518163
@@ -1360,6 +1367,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 5a1f4e4eb8d49da49b9932182bd7b22b, type: 2}
+    - target: {fileID: 8743946337373728693, guid: 58715b9687fcff84681173ca29de31d7,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4992276889083047674, guid: 58715b9687fcff84681173ca29de31d7,
         type: 3}
       propertyPath: looping
