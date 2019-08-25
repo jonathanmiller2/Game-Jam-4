@@ -24,7 +24,11 @@ public class PlayerController : MonoBehaviour
 	private float rotY = 0;
 	private float rotX = 0;
 
-	private bool lanternOn = true;
+	private bool lanternOn = false;
+	private int remainingLightAttempts = 2;
+
+	public Light mainLight;
+	//public Light ambiantLight;
 
 	private GameObject cart;
 
@@ -43,6 +47,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+		//Walking Audio
+		if (Input.GetKeyDown(KeyCode.W))
+		{
+			GetComponent<AudioSource>().Play();
+		}
+		else if (Input.GetKeyUp(KeyCode.W))
+		{
+			GetComponent<AudioSource>().Stop();
+		}
+
 		//Calculate movement velocity as a 3D vector
 		float xMov = Input.GetAxisRaw("Horizontal");
         float zMov = Input.GetAxisRaw("Vertical");
@@ -63,16 +77,42 @@ public class PlayerController : MonoBehaviour
         //This is necessary
         transform.rotation = Quaternion.Euler(0f, rotX, 0f);
 
-
 		rotY += Input.GetAxis("Mouse Y") * lookSensitivity;
   		rotY = Mathf.Clamp(rotY, -viewRange, viewRange);
    		cam.transform.rotation = Quaternion.Euler(-rotY, rotX, 0f);
 
 
-   		//================================
+		//================================
 
-   		//Look and Interact
-   		if (Input.GetButtonDown("Fire1"))
+		//Lantern
+		if (Input.GetButtonDown("Fire2"))
+		{
+			if (lanternOn)
+			{
+				//douse flame
+				//play sound
+				lanternOn = false;
+				remainingLightAttempts = Random.Range(0, 5);
+			}
+			else
+			{
+				if (remainingLightAttempts == 0)
+				{
+					lanternOn = true;
+				}
+				else
+				{
+					remainingLightAttempts -= 1;
+				}
+			}
+
+		}
+
+		//Enabling the lights when lanternOn is true
+		mainLight.enabled = lanternOn;
+
+		//Look and Interact
+		if (Input.GetButtonDown("Fire1"))
 		{
 			RaycastHit hit;
 

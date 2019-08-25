@@ -126,7 +126,6 @@ public class CartController : MonoBehaviour
 		foreach (Vector3 point in spawnCellPoints)
 		{
 			Instantiate(fuelCellPrefab, point, Quaternion.Euler(0, 0, 0));
-			//Debug.Log(point);
 		}
 	}
 
