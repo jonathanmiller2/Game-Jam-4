@@ -24,11 +24,17 @@ public class PlayerController : MonoBehaviour
 	private float rotY = 0;
 	private float rotX = 0;
 
+	public AudioSource ignitor;
+	public AudioSource extinguisher;
+	public AudioSource flame;
+	public AudioSource ignition;
+
 	private bool lanternOn = false;
-	private int remainingLightAttempts = 2;
+	private int ambiantOnly = 0;
+	private int remainingLightAttempts = 100;
 
 	public Light mainLight;
-	//public Light ambiantLight;
+	public Light ambiantLight;
 
 	private GameObject cart;
 
@@ -89,8 +95,8 @@ public class PlayerController : MonoBehaviour
 		{
 			if (lanternOn)
 			{
-				//douse flame
-				//play sound
+				flame.Stop();
+				extinguisher.Play();
 				lanternOn = false;
 				remainingLightAttempts = Random.Range(0, 5);
 			}
@@ -99,10 +105,15 @@ public class PlayerController : MonoBehaviour
 				if (remainingLightAttempts == 0)
 				{
 					lanternOn = true;
+					ignitor.Play();
+					ignition.Play();
+					flame.Play();
 				}
 				else
 				{
 					remainingLightAttempts -= 1;
+					ignitor.Play();
+					ambiantOnly = Random.Range(4, 9);
 				}
 			}
 
@@ -110,6 +121,18 @@ public class PlayerController : MonoBehaviour
 
 		//Enabling the lights when lanternOn is true
 		mainLight.enabled = lanternOn;
+		ambiantLight.enabled = lanternOn;
+
+		//allows the ambient light to be on by itself for ambientOnly number of frames (used for sparking)
+		if (!lanternOn && ambiantOnly > 0)
+		{
+			ambiantLight.enabled = true;
+			ambiantOnly -= 1;
+		}
+		else if (lanternOn && ambiantOnly > 0)
+		{
+			ambiantOnly = 0;
+		}
 
 		//Look and Interact
 		if (Input.GetButtonDown("Fire1"))
