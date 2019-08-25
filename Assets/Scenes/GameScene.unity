@@ -652,7 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 659f806e6de30d84a8507768836f6c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameboyMaterial: {fileID: 2100000, guid: f70960d2485c93842b9233e409b39d76, type: 2}
+  gameboyMaterial: {fileID: 2100000, guid: 8add39a043477754f893878a5a6345b1, type: 2}
   identityMaterial: {fileID: 2100000, guid: 2084aaeda4948294eb81aa1843269ae4, type: 2}
 --- !u!1 &2024204482
 GameObject:
@@ -698,7 +698,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 15
-  m_Range: 3
+  m_Range: 5
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10

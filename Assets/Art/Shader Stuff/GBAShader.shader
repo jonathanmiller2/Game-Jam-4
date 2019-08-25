@@ -2,11 +2,13 @@
 {
   Properties
   {
+		//Cotton Candy
     _MainTex ("Texture", 2D) = "white" {}
     _Darkest ("Darkest", color) = (0, 0, 0)
     _Dark ("Dark", color) = (1, .33, 1)
     _Ligt ("Light", color) = (0.33, 1, 1)
     _Ligtest ("Lightest", color) = (1, 1, 1)
+	
   }
   SubShader
   {
@@ -61,7 +63,7 @@
 	  float light = saturate(lumaTimesThree - 2.0);
       color = lerp(color, _Ligt, light);
 
-      float lightest = saturate(lumaTimesThree - 10.0);
+      float lightest = saturate(lumaTimesThree - 7.0);
       color = lerp(color, _Ligtest, lightest);
 
       return color;
