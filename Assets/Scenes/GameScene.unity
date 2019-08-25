@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -315,8 +315,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1472499980}
-  speed: 2
-  lookSensitivity: 5
   playerFuel: 0
 --- !u!1 &915200291
 GameObject:
@@ -362,7 +360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tiles:
-  - {fileID: 7379634210716709417, guid: 850487136acbfff41aff6657ce8d6e64, type: 3}
+  - {fileID: 7379634210716709417, guid: fcc7708a5fc00c340bfc4f63c659846e, type: 3}
   - {fileID: 7379634210716709417, guid: fcc7708a5fc00c340bfc4f63c659846e, type: 3}
 --- !u!1001 &942537582
 PrefabInstance:
@@ -376,21 +374,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cart Test 1
       objectReference: {fileID: 0}
-    - target: {fileID: -8384671585819305596, guid: ccf82bb1ed3732241bc92fc86cdd252d,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 0d74b650a43942b4ebaa818b42ec8aa4, type: 2}
-    - target: {fileID: -7709984625141985494, guid: ccf82bb1ed3732241bc92fc86cdd252d,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 0d74b650a43942b4ebaa818b42ec8aa4, type: 2}
-    - target: {fileID: -6789246140935335523, guid: ccf82bb1ed3732241bc92fc86cdd252d,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 0d74b650a43942b4ebaa818b42ec8aa4, type: 2}
     - target: {fileID: -4216859302048453862, guid: ccf82bb1ed3732241bc92fc86cdd252d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -404,7 +387,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: ccf82bb1ed3732241bc92fc86cdd252d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.05
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ccf82bb1ed3732241bc92fc86cdd252d,
         type: 3}
@@ -461,6 +444,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.024999999
       objectReference: {fileID: 0}
+    - target: {fileID: -8384671585819305596, guid: ccf82bb1ed3732241bc92fc86cdd252d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0d74b650a43942b4ebaa818b42ec8aa4, type: 2}
+    - target: {fileID: -7709984625141985494, guid: ccf82bb1ed3732241bc92fc86cdd252d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0d74b650a43942b4ebaa818b42ec8aa4, type: 2}
+    - target: {fileID: -6789246140935335523, guid: ccf82bb1ed3732241bc92fc86cdd252d,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0d74b650a43942b4ebaa818b42ec8aa4, type: 2}
     - target: {fileID: -2907895014416024742, guid: ccf82bb1ed3732241bc92fc86cdd252d,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
