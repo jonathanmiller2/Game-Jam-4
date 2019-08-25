@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -9,20 +10,23 @@ public class PlayerController : MonoBehaviour
 
 	[SerializeField]
 	private Camera cam;
+	private const float speed = 1f;
+	private const float lookSensitivity = 1f;
+	private const float viewRange = 65.0f;
+	private const float deathTime = 10.0f;
 
 	[SerializeField]
-	private float speed = 1f;
-
-	[SerializeField]
-	private float lookSensitivity = 1f;
-
-	[SerializeField]
-	public const float viewRange = 65.0f;
+	private const float deathRadius = 10f;
+	private float deathTimer = 0;
 
 	public float playerFuel = 0f;
 
 	private float rotY = 0;
 	private float rotX = 0;
+
+	private bool lanternOn = true;
+
+	private GameObject cart;
 
     // Start is called before the first frame update
     void Start()
@@ -32,13 +36,13 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         rb = GetComponent<Rigidbody>();
+
+        cart = GameObject.Find("Cart");
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-		
-
 		//Calculate movement velocity as a 3D vector
 		float xMov = Input.GetAxisRaw("Horizontal");
         float zMov = Input.GetAxisRaw("Vertical");
@@ -65,12 +69,10 @@ public class PlayerController : MonoBehaviour
    		cam.transform.rotation = Quaternion.Euler(-rotY, rotX, 0f);
 
 
-		LookAndInteract();
-	}
+   		//================================
 
-	void LookAndInteract()
-	{
-		if (Input.GetButtonDown("Fire1"))
+   		//Look and Interact
+   		if (Input.GetButtonDown("Fire1"))
 		{
 			RaycastHit hit;
 
@@ -82,9 +84,13 @@ public class PlayerController : MonoBehaviour
 
 				if (hitObject.tag == "FuelCell")
 				{
-					PickupFuel(hitObject);
+
+					FuelCellController cell = hitObject.GetComponent<FuelCellController>();
+
+					playerFuel += cell.fuelAmount;
+			
+					cell.Consume();
 				}
-				
 			}
 		}
 		else
@@ -101,15 +107,26 @@ public class PlayerController : MonoBehaviour
 				//audio indicator
 			}
 		}
+
+		//================================
+
+		if(!lanternOn && Vector3.Distance(cart.transform.position, transform.position) > deathRadius)
+		{
+			//Death timer
+			if(deathTimer > deathTime)
+			{
+				//Die
+
+				//Play death sound
+
+				//Go back to main menu scene
+				SceneManager.LoadScene("MainMenuScene", LoadSceneMode.Single);
+			}
+			else
+			{
+				//Progress dying
+				deathTimer += Time.deltaTime;
+			}
+		}
 	}
-	
-	void PickupFuel(GameObject fuelCell)
-	{
-		FuelCellController cell = fuelCell.GetComponent<FuelCellController>();
-
-		playerFuel += cell.fuelAmount;
-
-		cell.Consume();
-	}
-
 }
