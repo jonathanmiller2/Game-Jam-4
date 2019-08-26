@@ -217,7 +217,7 @@ public class PlayerController : MonoBehaviour
 		//===============Fuel===============
 		if (lanternOn)
 		{
-			playerFuel -= burnRate;
+			playerFuel -= burnRate * Time.deltaTime;
 
 			if (playerFuel <= 0f)
 			{

@@ -33,27 +33,27 @@ public class CartController : MonoBehaviour
 	public float cartStartDelay;
 
 	void Start()
-    {
-        tileManager = GameObject.Find("TileManager");
+	{
+		tileManager = GameObject.Find("TileManager");
 
-        GameObject startingPlatform = GameObject.Find("InitialPlatform");
-        TileController startingTileController = startingPlatform.GetComponent<TileController>();
+		GameObject startingPlatform = GameObject.Find("InitialPlatform");
+		TileController startingTileController = startingPlatform.GetComponent<TileController>();
 
-        tiles.Add(startingPlatform);
+		tiles.Add(startingPlatform);
 
-        GameObject PointParent = GetChildObjectWithTag(startingPlatform.transform, "Points");
+		GameObject PointParent = GetChildObjectWithTag(startingPlatform.transform, "Points");
 
 		//Add all of the points of the new tile to the movement queue
-		foreach(Transform point in PointParent.transform)
+		foreach (Transform point in PointParent.transform)
 		{
 			points.Add(point.position);
 		}
 
 		nextTileFirstPoint = PointParent.transform.GetChild(0).position;
-    }
+	}
 
-    void Update()
-    {
+	void FixedUpdate()
+	{
 		if (!started)
 		{
 			if (cartStartDelay <= 0)
@@ -74,14 +74,10 @@ public class CartController : MonoBehaviour
 			Move();
 		}
 		CheckPoint();
-		Fuel();
-    }
 
-	void Fuel()
-	{
 		if (cartRunning)
 		{
-			cartFuel -= cartFuelBurnRate;
+			cartFuel -= cartFuelBurnRate * Time.deltaTime;
 
 			if (cartFuel <= 0f)
 			{
@@ -91,8 +87,12 @@ public class CartController : MonoBehaviour
 		}
 
 		float targetRot = cartFuel * 320f;
-		Debug.Log(targetRot);
+
+		//needle.Rotate(targetRot - needle.rotation.eulerAngles.x, 0f, 0f, Space.Self);
+		//needle.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 		needle.rotation = Quaternion.Euler(new Vector3(-targetRot, needle.rotation.eulerAngles.y, needle.rotation.eulerAngles.z));
+		//Debug.Log("Target: " + targetRot + " Actual: " + needle.rotation.eulerAngles.x);
+		//Debug.Log(" Actual: " + needle.rotation.eulerAngles);
 	}
 
 	void StartCart()
