@@ -1075,6 +1075,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7718493376200555413, guid: bc3c05c019fe8924ea4e66f26b17979f,
+        type: 3}
+      propertyPath: needle
+      value: 
+      objectReference: {fileID: 1847769977}
     - target: {fileID: 3214125790621215245, guid: bc3c05c019fe8924ea4e66f26b17979f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1104,6 +1109,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ConnectedAnchor.x
       value: -0.0000045984475
+      objectReference: {fileID: 0}
+    - target: {fileID: 6537459164254638196, guid: bc3c05c019fe8924ea4e66f26b17979f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6537459164254638196, guid: bc3c05c019fe8924ea4e66f26b17979f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6537459164254638196, guid: bc3c05c019fe8924ea4e66f26b17979f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc3c05c019fe8924ea4e66f26b17979f, type: 3}
@@ -1239,6 +1259,12 @@ Light:
   m_CorrespondingSourceObject: {fileID: 717518165, guid: 58715b9687fcff84681173ca29de31d7,
     type: 3}
   m_PrefabInstance: {fileID: 1516765499}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1847769977 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6360289954246767717, guid: bc3c05c019fe8924ea4e66f26b17979f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1562902668}
   m_PrefabAsset: {fileID: 0}
 --- !u!82 &1888558930 stripped
 AudioSource:
