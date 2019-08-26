@@ -6,7 +6,7 @@ public class CartController : MonoBehaviour
 {
 	public GameObject fuelCellPrefab;
 
-	private const float nextPointThreshold = 0.01f;
+	private const float nextPointThreshold = 0.03f;
 
 	[SerializeField]
 	private float moveSpeed = 0.65f;
@@ -19,7 +19,20 @@ public class CartController : MonoBehaviour
 
 	private GameObject tileManager;
 
-    void Start()
+	public AudioSource cartAudio;
+	public AudioSource cartIgnition;
+	public AudioSource cartStop;
+
+	public Transform needle;
+
+	public float cartFuel;
+	public float cartFuelBurnRate;
+
+	private bool started = false;
+	private bool cartRunning = false;
+	public float cartStartDelay;
+
+	void Start()
     {
         tileManager = GameObject.Find("TileManager");
 
@@ -41,11 +54,62 @@ public class CartController : MonoBehaviour
 
     void Update()
     {
-		Move();
+		if (!started)
+		{
+			if (cartStartDelay <= 0)
+			{
+				StartCart();
+				cartStartDelay = 0f;
+				started = true;
+			}
+			else
+			{
+				cartStartDelay -= Time.deltaTime;
+			}
+		}
+
+
+		if (cartRunning)
+		{
+			Move();
+		}
 		CheckPoint();
+		Fuel();
     }
 
-	void Move() 
+	void Fuel()
+	{
+		if (cartRunning)
+		{
+			cartFuel -= cartFuelBurnRate;
+
+			if (cartFuel <= 0f)
+			{
+				cartFuel = 0f;
+				StopCart();
+			}
+		}
+
+		float targetRot = cartFuel * 320f;
+		Debug.Log(targetRot);
+		needle.rotation = Quaternion.Euler(new Vector3(-targetRot, needle.rotation.eulerAngles.y, needle.rotation.eulerAngles.z));
+	}
+
+	void StartCart()
+	{
+		cartIgnition.Play();
+		cartAudio.Play();
+		cartRunning = true;
+	}
+
+	void StopCart()
+	{
+		cartStop.Play();
+		cartAudio.Stop();
+		cartRunning = false;
+	}
+
+	void Move()
 	{
 		transform.LookAt(points[0]);
 

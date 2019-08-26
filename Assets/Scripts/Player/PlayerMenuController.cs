@@ -32,7 +32,7 @@ public class PlayerMenuController : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void FixedUpdate()
+	void Update()
 	{
 
 		if (actionTime > 0f)
