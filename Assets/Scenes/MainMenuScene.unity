@@ -489,7 +489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 659f806e6de30d84a8507768836f6c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameboyMaterial: {fileID: 2100000, guid: bc9c016d7ac16a049bb735306f899915, type: 2}
+  gameboyMaterial: {fileID: 2100000, guid: f70960d2485c93842b9233e409b39d76, type: 2}
   identityMaterial: {fileID: 2100000, guid: 2084aaeda4948294eb81aa1843269ae4, type: 2}
 --- !u!1 &788131509
 GameObject:
