@@ -517,10 +517,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tiles:
-  - {fileID: 7379634210716709417, guid: 850487136acbfff41aff6657ce8d6e64, type: 3}
-  - {fileID: 7379634210716709417, guid: fcc7708a5fc00c340bfc4f63c659846e, type: 3}
+  - {fileID: 7379634210716709417, guid: cf1874c7ac66a2f4a83a341be19ac81f, type: 3}
+  - {fileID: 7379634210716709417, guid: 1cd0edda6995410419c69102e46d30b5, type: 3}
+  - {fileID: 7379634210716709417, guid: 15e321bd027ae4a4d91b7ddc6212a0a1, type: 3}
   fuelingTiles:
-  - {fileID: 4916858433370538650, guid: b8e88e062d1c4244692d4f9c8c195755, type: 3}
+  - {fileID: 6867158566613244898, guid: 9b96cdc3ffe29e5459fd3429664ca760, type: 3}
   frequencyOfFuelingTile: 5
 --- !u!1 &953399463
 GameObject:
