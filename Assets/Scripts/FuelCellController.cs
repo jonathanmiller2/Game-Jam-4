@@ -17,6 +17,12 @@ public class FuelCellController : MonoBehaviour
 				Destroy(gameObject);
 			}
 		}
+
+		if (transform.position.y < -10f)
+		{
+			Destroy(gameObject);
+		}
+
 	}
 
 	public void Consume()

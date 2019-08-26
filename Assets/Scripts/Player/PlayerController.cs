@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
 	public AudioSource flame;
 	public AudioSource ignition;
 	public AudioSource spook;
+	public AudioSource wind;
 
 	public ParticleSystem sparks;
 
@@ -52,6 +53,8 @@ public class PlayerController : MonoBehaviour
 	public float cartRegenRate;
 	public float lanternRegenRate;
 
+	private float windTimer = 20f;
+
 	// Start is called before the first frame update
 	void Start()
     {
@@ -66,6 +69,62 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
+
+		//Look and Interact
+		if (Input.GetButtonDown("Fire1"))
+		{
+			RaycastHit hit;
+
+			if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 1000))
+			{
+				GameObject hitObject = hit.collider.GetComponentInParent<Transform>().gameObject;
+
+				if (hitObject.tag == "FuelCell")
+				{
+
+					FuelCellController cell = hitObject.GetComponent<FuelCellController>();
+
+					playerFuel += cell.fuelAmount;
+					if (playerFuel > 1f)
+					{
+						playerFuel = 1f;
+					}
+
+					cell.Consume();
+				}
+			}
+		}
+		else
+		{
+			RaycastHit hit;
+
+			Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.green);
+
+			if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 1000))
+			{
+				GameObject hitObject = hit.collider.GetComponentInParent<Transform>().gameObject;
+
+				if (hitObject.tag == "FuelCell")
+				{
+					int onOff = Random.Range(0, 2);
+
+					if (onOff == 0)
+					{
+						needle.GetComponent<MeshRenderer>().material.DisableKeyword("_EMISSION");
+					}
+					else
+					{
+						needle.GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
+					}
+					
+				}
+				else
+				{
+					needle.GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
+				}
+			}
+		}
+
 		//Lantern
 		if (Input.GetButtonDown("Fire2"))
 		{
@@ -153,10 +212,9 @@ public class PlayerController : MonoBehaviour
    		cam.transform.rotation = Quaternion.Euler(-rotY, rotX, 0f);
 
 
-		//================================
+		//===============Lantern=================
 
-		//lantern
-		//Fuel
+		//===============Fuel===============
 		if (lanternOn)
 		{
 			playerFuel -= burnRate;
@@ -169,11 +227,22 @@ public class PlayerController : MonoBehaviour
 				extinguisher.Play();
 			}
 		}
-		
-		//Needle
-		float zRot = -(playerFuel * 320f);
-		needle.rotation = Quaternion.Euler(new Vector3(needle.rotation.eulerAngles.x, needle.rotation.eulerAngles.y, zRot));
+		//===============/Fuel===============
 
+		//=============Needle=============
+		float targetRot = playerFuel * 320f;
+
+		//float currentRotation = -needle.rotation.eulerAngles.z;
+		//float delta = Mathf.Abs(1/(targetRot - currentRotation));
+		//float newRotation = (Mathf.Pow((float)System.Math.E, -delta) * Mathf.Sin(delta)) + currentRotation;
+		//needle.rotation = Quaternion.Euler(new Vector3(needle.rotation.eulerAngles.x, needle.rotation.eulerAngles.y, -newRotation));
+		//Debug.Log("Fuel: " + playerFuel + " Target: " + targetRot + " Current: " + currentRotation + " Delta: " + delta	+ " Final Rotation: " + needle.rotation.eulerAngles.z);
+
+		needle.rotation = Quaternion.Euler(new Vector3(needle.rotation.eulerAngles.x, needle.rotation.eulerAngles.y, -targetRot));
+
+		//=============/Needle=============
+
+		//=============Light Controll=============
 		//Enabling the lights when lanternOn is true
 		mainLight.enabled = lanternOn;
 		ambiantLight.enabled = lanternOn;
@@ -188,50 +257,31 @@ public class PlayerController : MonoBehaviour
 		{
 			ambiantOnly = 0;
 		}
+		//=============/Light Controll=============
 
-		//Look and Interact
-		if (Input.GetButtonDown("Fire1"))
+		//=============Wind=============
+
+		if (windTimer <= 0f)
 		{
-			RaycastHit hit;
-
-			Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.green);
-
-			if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 1000))
+			windTimer = Random.Range(30, 300);
+			AudioSource.PlayClipAtPoint(wind.clip, new Vector3(transform.position.x - Random.Range(5, 10), transform.position.y, transform.position.z - Random.Range(5, 10)), 1f);
+			if (lanternOn)
 			{
-				GameObject hitObject = hit.collider.GetComponentInParent<Transform>().gameObject;
-
-				if (hitObject.tag == "FuelCell")
-				{
-
-					FuelCellController cell = hitObject.GetComponent<FuelCellController>();
-
-					playerFuel += cell.fuelAmount;
-					if (playerFuel > 1f)
-					{
-						playerFuel = 1f;
-					}
-			
-					cell.Consume();
-				}
+				lanternOn = false;
+				flame.Stop();
+				extinguisher.Play();
 			}
 		}
 		else
 		{
-			RaycastHit hit;
-
-			Debug.DrawRay(cam.transform.position, cam.transform.forward, Color.green);
-
-			if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 1000))
-			{
-				GameObject hitObject = hit.collider.GetComponentInParent<Transform>().gameObject;
-
-				//Visual indicator
-				//audio indicator
-			}
+			windTimer -= Time.deltaTime;
 		}
 
-		//================================
-		//Death
+		//=============/Wind=============
+
+		//===============/Lantern==============
+
+		//=============Death===============
 		if (mortal && !dead)
 		{
 			if (!lanternOn && Vector3.Distance(cart.transform.position, transform.position) > deathRadius)
@@ -253,22 +303,22 @@ public class PlayerController : MonoBehaviour
 
 					if (oldHealth > 0.8f && health <= 0.8f)
 					{
-						spook.volume = 0.2f;
+						spook.volume = 0.05f;
 						spook.Play();
 					}
 					else if (oldHealth > 0.6f && health <= 0.6f)
 					{
-						spook.volume = 0.4f;
+						spook.volume = 0.1f;
 						spook.Play();
 					}
 					else if (oldHealth > 0.4f && health <= 0.4f)
 					{
-						spook.volume = 0.6f;
+						spook.volume = 0.2f;
 						spook.Play();
 					}
 					else if (oldHealth > 0.2f && health <= 0.2f)
 					{
-						spook.volume = 0.8f;
+						spook.volume = 0.4f;
 						spook.Play();
 					}
 				}
@@ -298,5 +348,6 @@ public class PlayerController : MonoBehaviour
 				SceneManager.LoadScene("MainMenuScene", LoadSceneMode.Single);
 			}
 		}
+		//=============/Death===============
 	}
 }

@@ -25,6 +25,7 @@ public class TileController : MonoBehaviour
     private GameObject childTile;
     private GameObject parentTile;
 
+	public bool isFuelingTile = false;
 
     void Awake()
     {

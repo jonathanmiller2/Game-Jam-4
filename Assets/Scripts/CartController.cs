@@ -92,40 +92,42 @@ public class CartController : MonoBehaviour
 		tiles.Insert(0, newTile);
 
 		//gets the first child, the list of points, then gets the first points (child) and gets its position;
-		Debug.Log(PointParent.transform.childCount);
 		nextTileFirstPoint = PointParent.transform.GetChild(0).position;
 
-		//Add fuel cells
-		int numCells = Random.Range(1, 5);
-		List<Vector3> cellPoints = new List<Vector3>();
-		List<Vector3> spawnCellPoints = new List<Vector3>();
-
-		GameObject FuelCellPointParent = GetChildObjectWithTag(newTile.transform, "FuelCellPoints");
-
-		foreach (Transform cellPoint in FuelCellPointParent.transform)
+		if (!newTile.GetComponent<TileController>().isFuelingTile)
 		{
-			cellPoints.Add(cellPoint.position);
-		}
+			//Add fuel cells
+			int numCells = Random.Range(1, 5);
+			List<Vector3> cellPoints = new List<Vector3>();
+			List<Vector3> spawnCellPoints = new List<Vector3>();
 
-		for (int i = 1; i <= numCells; i++)
-		{
-			bool pointAdded = false;
+			GameObject FuelCellPointParent = GetChildObjectWithTag(newTile.transform, "FuelCellPoints");
 
-			while (!pointAdded)
+			foreach (Transform cellPoint in FuelCellPointParent.transform)
 			{
-				int cellPoint = Random.Range(0, cellPoints.Count);
+				cellPoints.Add(cellPoint.position);
+			}
 
-				if (!spawnCellPoints.Contains(cellPoints[cellPoint]))
+			for (int i = 1; i <= numCells; i++)
+			{
+				bool pointAdded = false;
+
+				while (!pointAdded)
 				{
-					spawnCellPoints.Add(cellPoints[cellPoint]);
-					pointAdded = true;
+					int cellPoint = Random.Range(0, cellPoints.Count);
+
+					if (!spawnCellPoints.Contains(cellPoints[cellPoint]))
+					{
+						spawnCellPoints.Add(cellPoints[cellPoint]);
+						pointAdded = true;
+					}
 				}
 			}
-		}
 
-		foreach (Vector3 point in spawnCellPoints)
-		{
-			Instantiate(fuelCellPrefab, point, Quaternion.Euler(0, 0, 0));
+			foreach (Vector3 point in spawnCellPoints)
+			{
+				Instantiate(fuelCellPrefab, point, Quaternion.Euler(0, 0, 0));
+			}
 		}
 	}
 

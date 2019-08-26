@@ -5,9 +5,13 @@ using UnityEngine;
 public class TileSpawn : MonoBehaviour
 {
 
-    [SerializeField]
-    public List<GameObject> tiles = new List<GameObject>(3);
+	[SerializeField]
+	public List<GameObject> tiles;
+	[SerializeField]
+	public List<GameObject> fuelingTiles;
+	public int frequencyOfFuelingTile;
 
+	private int spawnedTiles = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -23,13 +27,28 @@ public class TileSpawn : MonoBehaviour
 
     public GameObject Spawn(Vector3 Position, Vector3 Center)
     {
-        int i = Random.Range(0, tiles.Count);
-        
-        Vector3 Direction = Vector3.Normalize(Center - Position);
+		GameObject nextTile;
+		Vector3 Direction = Vector3.Normalize(Center - Position);
 
-        GameObject nextTile = Instantiate(tiles[i], Position, Quaternion.identity);
-        nextTile.transform.forward = Direction;
+		if (spawnedTiles % frequencyOfFuelingTile == 0)
+		{
+			int i = Random.Range(0, fuelingTiles.Count);
 
-        return nextTile;
+			nextTile = Instantiate(fuelingTiles[i], Position, Quaternion.identity);
+			nextTile.transform.forward = Direction;
+
+			nextTile.GetComponent<TileController>().isFuelingTile = true;
+		}
+		else
+		{
+			int i = Random.Range(0, tiles.Count);
+			
+			nextTile = Instantiate(tiles[i], Position, Quaternion.identity);
+			nextTile.transform.forward = Direction;
+		}
+
+		spawnedTiles += 1;
+
+		return nextTile;
     }
 }
