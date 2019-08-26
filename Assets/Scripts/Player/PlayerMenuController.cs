@@ -155,7 +155,7 @@ public class PlayerMenuController : MonoBehaviour
 
 				if (hitObject.tag == "PlayButton" || hitObject.tag == "ExitButton" || hitObject.tag == "Slider")
 				{
-					hitObject.GetComponent<Renderer>().material.color = new Color(0, 0, 0);
+					hitObject.GetComponent<Renderer>().material.color = new Color(15, 15, 15);
 					//Do actual indication stuff here @camden
 				}
 			}
@@ -163,9 +163,9 @@ public class PlayerMenuController : MonoBehaviour
 
 		void UndoAllColor()
 		{
-			GameObject.FindGameObjectWithTag("PlayButton").GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-			GameObject.FindGameObjectWithTag("ExitButton").GetComponent<Renderer>().material.color = new Color(255, 0, 0);
-			GameObject.FindGameObjectWithTag("Slider").GetComponent<Renderer>().material.color = new Color(255, 0, 0);
+			GameObject.FindGameObjectWithTag("PlayButton").GetComponent<Renderer>().material.color = new Color(0, 0, 0);
+			GameObject.FindGameObjectWithTag("ExitButton").GetComponent<Renderer>().material.color = new Color(0, 0, 0);
+			GameObject.FindGameObjectWithTag("Slider").GetComponent<Renderer>().material.color = new Color(15, 15, 15);
 		}
 
 		void SetVolumeFromZ(float Z)
