@@ -520,7 +520,7 @@ MonoBehaviour:
   - {fileID: 7379634210716709417, guid: 850487136acbfff41aff6657ce8d6e64, type: 3}
   - {fileID: 7379634210716709417, guid: fcc7708a5fc00c340bfc4f63c659846e, type: 3}
   fuelingTiles:
-  - {fileID: 3728705301385087622, guid: db86abd858970f741b30d4231e855391, type: 3}
+  - {fileID: 4916858433370538650, guid: b8e88e062d1c4244692d4f9c8c195755, type: 3}
   frequencyOfFuelingTile: 5
 --- !u!1 &953399463
 GameObject:
