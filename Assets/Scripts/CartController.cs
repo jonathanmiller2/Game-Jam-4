@@ -89,9 +89,6 @@ public class CartController : MonoBehaviour
 		float targetRot = cartFuel * 320f;
 
 		needle.rotation = Quaternion.Euler(new Vector3(needle.rotation.eulerAngles.x, needle.rotation.eulerAngles.y, targetRot));
-		//needle.rotation = Quaternion.Euler(new Vector3(0f, 0f, targetRot - needle.rotation.eulerAngles.z)) * needle.rotation;
-		Debug.Log("Target: " + targetRot + " Actual: " + needle.rotation.eulerAngles.x);
-		Debug.Log(" Actual: " + needle.rotation.eulerAngles);
 	}
 
 	void StartCart()
