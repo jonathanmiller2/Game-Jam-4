@@ -92,6 +92,49 @@ public class PlayerController : MonoBehaviour
 
 					cell.Consume();
 				}
+				else if (hitObject.tag == "SodaStream")
+				{
+
+				}
+
+				if (hitObject == cart)
+				{
+					cart.GetComponent<CartController>().StartCart();
+				}
+
+			}
+		}
+		else if (Input.GetButton("Fire1"))
+		{
+			RaycastHit hit;
+
+			if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, 1000))
+			{
+				GameObject hitObject = hit.collider.GetComponentInParent<Transform>().gameObject;
+
+				if (hitObject.tag == "SodaStream")
+				{
+					if (!hitObject.GetComponent<AudioSource>().isPlaying)
+					{
+						hitObject.GetComponent<AudioSource>().Play();
+					}
+
+					float transferAmount = Time.deltaTime * 10f;
+
+					if (playerFuel < transferAmount)
+					{
+						transferAmount = playerFuel;
+					}
+
+					playerFuel -= transferAmount;
+
+					cart.GetComponent<CartController>().cartFuel += transferAmount;
+
+					if (cart.GetComponent<CartController>().cartFuel > 1f)
+					{
+						cart.GetComponent<CartController>().cartFuel = 1f;
+					}
+				}
 			}
 		}
 		else
@@ -117,6 +160,10 @@ public class PlayerController : MonoBehaviour
 						needle.GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
 					}
 					
+				}
+				else if (hitObject.tag == "SodaStream")
+				{
+
 				}
 				else
 				{

@@ -18,6 +18,7 @@ public class CartController : MonoBehaviour
 	Vector3 nextTileFirstPoint;
 
 	List<Vector3> points = new List<Vector3>();
+	private Vector3 fuelStationPoint = Vector3.negativeInfinity;
 
 	private GameObject tileManager;
 
@@ -93,20 +94,26 @@ public class CartController : MonoBehaviour
 		needle.rotation = Quaternion.Euler(new Vector3(needle.rotation.eulerAngles.x, needle.rotation.eulerAngles.y, targetRot));
 	}
 
-	void StartCart()
+	public void StartCart()
 	{
-		cartAnimator.SetBool("IsStopped", false);
-		cartIgnition.Play();
-		cartAudio.Play();
-		cartRunning = true;
+		if (!cartRunning && cartFuel > 0f && cartStartDelay <= 0f)
+		{
+			cartAnimator.SetBool("IsStopped", false);
+			cartIgnition.Play();
+			cartAudio.Play();
+			cartRunning = true;
+		}
 	}
 
-	void StopCart()
+	public void StopCart()
 	{
-		cartAnimator.SetBool("IsStopped", true);
-		cartStop.Play();
-		cartAudio.Stop();
-		cartRunning = false;
+		if (cartRunning)
+		{
+			cartAnimator.SetBool("IsStopped", true);
+			cartStop.Play();
+			cartAudio.Stop();
+			cartRunning = false;
+		}
 	}
 
 	void Move()
@@ -122,6 +129,11 @@ public class CartController : MonoBehaviour
 
 		if (Vector3.Distance(transform.position, points[0]) < nextPointThreshold)
 		{
+			if (points[0] == fuelStationPoint)
+			{
+				StopCart();
+			}
+
 			points.RemoveAt(0);
 
 			//This only needs to be checked if we're at a new point, not in transit
@@ -145,6 +157,10 @@ public class CartController : MonoBehaviour
 		foreach(Transform point in PointParent.transform)
 		{
 			points.Add(point.position);
+			if (point.tag == "FuelingPoint")
+			{
+				fuelStationPoint = point.position;
+			}
 		}
 
 		//Destroy old tiles and shift arraylist

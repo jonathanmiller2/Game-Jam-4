@@ -16,6 +16,8 @@ TagManager:
   - Points
   - FuelCellPoints
   - Tile
+  - FuelingPoint
+  - SodaStream
   layers:
   - Default
   - TransparentFX
