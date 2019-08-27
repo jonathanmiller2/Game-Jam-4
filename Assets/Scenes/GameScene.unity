@@ -470,7 +470,7 @@ MonoBehaviour:
   deathTimer: 7.5
   mortal: 1
   health: 1
-  healthDepletionRate: 0.05
+  healthDepletionRate: 0.025
   cartRegenRate: 0.006
   lanternRegenRate: 0.003
 --- !u!1 &915200291

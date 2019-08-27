@@ -2088,6 +2088,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fuelCellPrefab: {fileID: 4076283853114568107, guid: a7405a410f933ee418c615582d9017bd,
     type: 3}
+  cartAnimator: {fileID: 6349668972258466140}
   moveSpeed: 0.65
   cartAudio: {fileID: 7718493376200555433}
   cartIgnition: {fileID: 2027924688}

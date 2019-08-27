@@ -6,6 +6,8 @@ public class CartController : MonoBehaviour
 {
 	public GameObject fuelCellPrefab;
 
+	public Animator cartAnimator;
+
 	private const float nextPointThreshold = 0.03f;
 
 	[SerializeField]
@@ -93,6 +95,7 @@ public class CartController : MonoBehaviour
 
 	void StartCart()
 	{
+		cartAnimator.SetBool("IsStopped", false);
 		cartIgnition.Play();
 		cartAudio.Play();
 		cartRunning = true;
@@ -100,6 +103,7 @@ public class CartController : MonoBehaviour
 
 	void StopCart()
 	{
+		cartAnimator.SetBool("IsStopped", true);
 		cartStop.Play();
 		cartAudio.Stop();
 		cartRunning = false;
