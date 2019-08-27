@@ -2336,6 +2336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6537459164254638196}
   - component: {fileID: 6349668972258466140}
+  - component: {fileID: 6301389006623103426}
   m_Layer: 0
   m_Name: Cart 2
   m_TagString: Untagged
@@ -2379,6 +2380,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &6301389006623103426
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7846081586676359783}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 45.31, y: 100.2, z: 96.07}
+  m_Center: {x: 0, y: 42.3, z: 42.41}
 --- !u!1 &8053661510997099223
 GameObject:
   m_ObjectHideFlags: 0
