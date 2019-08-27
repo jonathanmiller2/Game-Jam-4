@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
 					{
 						hitObject.GetComponent<AudioSource>().Play();
 
-						float transferAmount = Time.deltaTime;
+						float transferAmount = Time.deltaTime / 5f;
 
 						if (playerFuel < transferAmount)
 						{
