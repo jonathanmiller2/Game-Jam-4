@@ -239,7 +239,6 @@ public class PlayerController : MonoBehaviour
 		//Debug.Log("Fuel: " + playerFuel + " Target: " + targetRot + " Current: " + currentRotation + " Delta: " + delta	+ " Final Rotation: " + needle.rotation.eulerAngles.z);
 
 		needle.rotation = Quaternion.Euler(new Vector3(needle.rotation.eulerAngles.x, needle.rotation.eulerAngles.y, -targetRot));
-
 		//=============/Needle=============
 
 		//=============Light Controll=============
@@ -299,7 +298,7 @@ public class PlayerController : MonoBehaviour
 				else
 				{
 					float oldHealth = health;
-					health -= healthDepletionRate;
+					health -= healthDepletionRate * Time.deltaTime;
 
 					if (oldHealth > 0.8f && health <= 0.8f)
 					{
@@ -325,12 +324,12 @@ public class PlayerController : MonoBehaviour
 			}
 			else if (Vector3.Distance(cart.transform.position, transform.position) < cartRegenRadius)
 			{
-				health += cartRegenRate;
+				health += cartRegenRate * Time.deltaTime;
 				
 			}
 			else if (lanternOn)
 			{
-				health += lanternRegenRate;
+				health += lanternRegenRate * Time.deltaTime;
 			}
 
 			if (health > 1f)
