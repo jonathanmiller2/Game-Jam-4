@@ -79,6 +79,8 @@ public class PlayerController : MonoBehaviour
 			{
 				GameObject hitObject = hit.collider.GetComponentInParent<Transform>().gameObject;
 
+				Debug.Log("(Down) Hit object: " + hitObject.name);
+
 				if (hitObject.tag == "FuelCell")
 				{
 
@@ -96,8 +98,7 @@ public class PlayerController : MonoBehaviour
 				{
 
 				}
-
-				if (hitObject == cart)
+				else if (hitObject.name == "Cart")
 				{
 					cart.GetComponent<CartController>().StartCart();
 				}
@@ -112,28 +113,37 @@ public class PlayerController : MonoBehaviour
 			{
 				GameObject hitObject = hit.collider.GetComponentInParent<Transform>().gameObject;
 
+				Debug.Log("(Held) Hit object: " + hitObject.name);
+
 				if (hitObject.tag == "SodaStream")
 				{
-					if (!hitObject.GetComponent<AudioSource>().isPlaying)
+					
+
+					if (cart.GetComponent<CartController>().cartFuel < 1f)
 					{
 						hitObject.GetComponent<AudioSource>().Play();
+
+						float transferAmount = Time.deltaTime;
+
+						if (playerFuel < transferAmount)
+						{
+							transferAmount = playerFuel;
+						}
+
+						playerFuel -= transferAmount;
+
+						cart.GetComponent<CartController>().cartFuel += transferAmount;
+
+						if (cart.GetComponent<CartController>().cartFuel > 1f)
+						{
+							cart.GetComponent<CartController>().cartFuel = 1f;
+						}
 					}
-
-					float transferAmount = Time.deltaTime * 10f;
-
-					if (playerFuel < transferAmount)
-					{
-						transferAmount = playerFuel;
-					}
-
-					playerFuel -= transferAmount;
-
-					cart.GetComponent<CartController>().cartFuel += transferAmount;
-
-					if (cart.GetComponent<CartController>().cartFuel > 1f)
-					{
-						cart.GetComponent<CartController>().cartFuel = 1f;
-					}
+					
+				}
+				else
+				{
+					Debug.Log("Fire 1 down not hit soda hit something");
 				}
 			}
 		}

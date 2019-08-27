@@ -129,8 +129,12 @@ public class CartController : MonoBehaviour
 
 		if (Vector3.Distance(transform.position, points[0]) < nextPointThreshold)
 		{
+
+			Debug.Log("at point: " + points[0] + " fueling point: " + fuelStationPoint);
+
 			if (points[0] == fuelStationPoint)
 			{
+				Debug.Log("Stoping cart.");
 				StopCart();
 			}
 
@@ -159,6 +163,7 @@ public class CartController : MonoBehaviour
 			points.Add(point.position);
 			if (point.tag == "FuelingPoint")
 			{
+				Debug.Log("Added Fueling Point: " + point.position);
 				fuelStationPoint = point.position;
 			}
 		}

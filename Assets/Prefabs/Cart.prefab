@@ -2095,7 +2095,7 @@ MonoBehaviour:
   cartStop: {fileID: 395013947}
   needle: {fileID: 6360289954246767717}
   cartFuel: 1
-  cartFuelBurnRate: 0.009
+  cartFuelBurnRate: 0.005
   cartStartDelay: 3
 --- !u!82 &7718493376200555433
 AudioSource:
